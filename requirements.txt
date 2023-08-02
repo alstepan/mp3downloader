@@ -1,0 +1,8 @@
+requests==2.31.0
+clipboard==0.0.4
+pysimplegui==4.60.5
+validators==0.20.0
+pillow >= 10
+yt-dlp==2023.7.6
+tk-tools==0.16.0
+ffmpeg==1.4

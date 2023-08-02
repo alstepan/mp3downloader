@@ -1,10 +1,11 @@
-import youtube_dl
+from yt_dlp import YoutubeDL
 import PySimpleGUI as sg
 import validators
 from PIL import Image
 import requests
 import io
 import clipboard
+import ffmpeg
 
 videos_to_download=[['', '', '']]
 layout = [  [sg.Text('Youtube video URL'), sg.Input(key='__URL__', enable_events=True), sg.Button('Paste'), sg.Button('Add')],
@@ -40,7 +41,7 @@ def downloadProgress(d):
 	window.find_element('_download_label_').Update(value=f"Downloading {d['filename']} ...")
  
 def getVideoInfo(url):
-	ydl = youtube_dl.YoutubeDL({'outtmpl': '%(title)s.%(ext)s'})
+	ydl = YoutubeDL({'outtmpl': '%(title)s.%(ext)s'})
 	with ydl:
 		info = ydl.extract_info(url, download=False)
 	video = info['entries'][0] if 'entries' in info else info
@@ -82,8 +83,9 @@ def downloadVideo(urls, path):
 	  	}]  
 	}
 	window.find_element('Download...').Update(disabled=True)
-	with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+	with YoutubeDL(ydl_opts) as ydl:
 		ydl.download(urls)
+	
 	window.find_element('Download...').Update(disabled=False)
 
 def main():
